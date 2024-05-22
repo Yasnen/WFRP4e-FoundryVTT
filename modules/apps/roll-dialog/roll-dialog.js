@@ -174,7 +174,7 @@ export default class RollDialog extends Application {
 
         this.tooltips.start(this);
         mergeObject(this.fields, this.initialFields);
-        this.tooltips.finish(this, this.options.initialTooltip || "Initial")
+        this.tooltips.finish(this, this.options.initialTooltip || game.i18n.localize("Initial"));
 
         this.tooltips.start(this);
         for(let key in this.userEntry)
