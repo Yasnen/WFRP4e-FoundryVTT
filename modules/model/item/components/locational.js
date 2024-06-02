@@ -58,18 +58,30 @@ export class LocationalItemModel extends BaseItemModel {
     }
 
     async promptLocation() {
+        let lLabel = `${game.i18n.localize("Left")} ${this.location.value}`;
+        let rLabel = `${game.i18n.localize("Right")} ${this.location.value}`;
+        let locationKey = this.location.value;
+        if (this.location.value == game.i18n.localize("Arms")) {
+          lLabel = game.i18n.localize("WFRP4E.Locations.lArm");
+          rLabel = game.i18n.localize("WFRP4E.Locations.rArm");
+          locationKey = "Arm"
+        } else if (this.location.value == game.i18n.localize("Legs")) {
+          lLabel = game.i18n.localize("WFRP4E.Locations.lLeg");
+          rLabel = game.i18n.localize("WFRP4E.Locations.rLeg");
+          locationKey = "Leg"
+        }
         let location = await Dialog.wait({
             title: game.i18n.localize("Location"),
-            content: "Choose Location",
+            content: game.i18n.localize("Choose Location"),
             buttons: {
                 l: {
-                    label: `${game.i18n.localize("Left")} ${this.location.value}`,
+                    label: lLabel,
                     callback: () => {
                         return "l";
                     }
                 },
                 r: {
-                    label: `${game.i18n.localize("Right")} ${this.location.value}`,
+                    label: rLabel,
                     callback: () => {
                         return "r";
                     }
@@ -81,13 +93,13 @@ export class LocationalItemModel extends BaseItemModel {
         let displayLocation = this.location.value;
 
         if (location == "l") {
-            displayLocation = `${game.i18n.localize("Left")} ${this.location.value}`
+            displayLocation = lLabel;
         }
         if (location == "r") {
-            displayLocation = `${game.i18n.localize("Right")} ${this.location.value}`
+            displayLocation = rLabel
         }
 
-        this.parent.updateSource({ "system.location": { key: location + this.location.value, value: displayLocation } })
+        this.parent.updateSource({ "system.location": { key: location + locationKey, value: displayLocation } })
     }
 
     usesLocation(weapon) {
